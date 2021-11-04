@@ -1,8 +1,8 @@
 #!/bin/bash
 # Uncomment if you want trace. Dumps txt trace. Do not enable for large programs.
-#FLAGS="HWACC,LLVMRuntime"
+FLAGS="HWACC,LLVMRuntime"
 # NoncoherentDma only dumps the copy from and to host
-FLAGS="NoncoherentDma"
+#FLAGS="NoncoherentDma"
 BENCH=""
 DEBUG="false"
 PRINT_TO_FILE="false"
@@ -43,7 +43,7 @@ else
 fi
 
 KERNEL=$LAB_PATH/benchmarks/$BENCH/host/main.elf
-SYS_OPTS="--mem-size=8GB \
+SYS_OPTS="--mem-size=4GB \
           --kernel=$KERNEL \
           --disk-image=$M5_PATH/baremetal/common/fake.iso \
           --machine-type=VExpress_GEM5_V1 \
@@ -52,7 +52,7 @@ SYS_OPTS="--mem-size=8GB \
 # With acc cache
 #CACHE_OPTS="--caches --l2cache --acc_cache"
 # Without acc cache
-CACHE_OPTS="--caches --l2cache"
+CACHE_OPTS="--caches --l2cache --acc_cache"
 
 # Script to start up full system simulation
 # --debug-flags=$FLAGS

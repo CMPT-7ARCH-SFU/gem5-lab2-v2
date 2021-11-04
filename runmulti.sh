@@ -46,7 +46,7 @@ SYS_OPTS="--mem-size=4GB \
           --machine-type=VExpress_GEM5_V1 \
           --dtb-file=none --bare-metal \
           --cpu-type=MinorCPU"
-CACHE_OPTS="--caches --l2cache"
+CACHE_OPTS="--caches --l2cache --acc_cache"
 # Script to start up full system simulation
 # --debug-flags=$FLAGS
 
