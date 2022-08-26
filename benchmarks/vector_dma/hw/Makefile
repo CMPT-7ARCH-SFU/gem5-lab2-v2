@@ -1,4 +1,4 @@
-KERN=vector_dma.c  top.c
+KERN=vector_dma.c
 build: $(FILES)
 	clang -O1 -S -fno-slp-vectorize -fno-vectorize -fno-unroll-loops -fno-inline -fno-builtin -emit-llvm $(KERN)
 

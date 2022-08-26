@@ -5,7 +5,7 @@
 #include "../../common/m5ops.h"
 #include "../defines.h"
 
-volatile uint8_t  * ACC  = (uint8_t *)VECTOR_DMA;
+volatile uint8_t  *ACC  = (uint8_t *)VECTOR_DMA;
 
 inline void DmaCopy(void *dst, void *src, int len) {
   volatile uint8_t  * DmaFlags   = (uint8_t  *)(DMA_Flags);
@@ -24,7 +24,6 @@ inline void DmaCopy(void *dst, void *src, int len) {
 int main(void) {
   m5_reset_stats();
   uint64_t base = 0x80c00000;
-  // uint64_t spm_base = 0x100200c0;
   volatile TYPE *spm_base = (TYPE *)(MATRIX1);
 
   TYPE *m1 = (TYPE *)base;
@@ -48,14 +47,12 @@ int main(void) {
   //Transfer Input Matrices
 	//Transfer M1
   DmaCopy(spm1, m1, N * sizeof(TYPE));
-
-
 	// Transfer M2
   DmaCopy(spm2, m2, N * sizeof(TYPE));
 
 	// Start the accelerated function
 	*ACC = DEV_INIT;
-// 	//Poll function for finish
+	//Poll function for finish
 	while ((*ACC & DEV_INTR) != DEV_INTR);
 
 	// //Transfer M3
