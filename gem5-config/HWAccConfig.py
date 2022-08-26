@@ -1,153 +1,160 @@
 import m5
 from m5.objects import *
 from m5.util import *
-import ConfigParser
+from configparser import ConfigParser
+from pathlib import Path
+import yaml
+import os
 
-def AccConfig(acc, config_file, bench_file):
-    # Setup config file parser
-    Config = ConfigParser.ConfigParser()
-    Config.read((config_file))
-    Config.sections()
-    def ConfigSectionMap(section):
-        dict1 = {}
-        options = Config.options(section)
-        for option in options:
-            try:
-                dict1[option] = Config.get(section, option)
-                if dict1[option] == -1:
-                    DebugPrint("skip: %s" % option)
-            except:
-                print("exception on %s!" % option)
-                dict1[option] = None
-        return dict1
-    # Setup comm interface
-    acc.pio_addr=ConfigSectionMap("CommInterface")['pio_addr']
-    acc.pio_size=ConfigSectionMap("CommInterface")['pio_size']
-    acc.flags_size = ConfigSectionMap("AccConfig")['flags_size']
-    acc.config_size = ConfigSectionMap("AccConfig")['config_size']
-    acc.int_num = ConfigSectionMap("AccConfig")['int_num']
-    acc.clock_period = ConfigSectionMap("AccConfig")['clock_period']
-    predef = ConfigSectionMap("AccConfig")['premap_data']
-
-    if (predef == "1" or predef == "True"):
-        acc.premap_data = predef
-        acc.data_bases = ConfigSectionMap("AccConfig")['data_bases']
-
-
+def AccConfig(acc, bench_file, config_file):
     # Initialize LLVMInterface Objects
     acc.llvm_interface = LLVMInterface()
-    acc.llvm_interface.cycles = CycleCounts()
 
     # Benchmark path
     acc.llvm_interface.in_file = bench_file
+    M5_Path = os.getenv('M5_PATH')
+    benchname = os.path.splitext(os.path.basename(bench_file))[0]
 
-    # Load instruction cycle counts
-    acc.llvm_interface.cycles.counter = ConfigSectionMap("CycleCounts")['counter']
-    acc.llvm_interface.cycles.gep = ConfigSectionMap("CycleCounts")['gep']
-    acc.llvm_interface.cycles.phi = ConfigSectionMap("CycleCounts")['phi']
-    acc.llvm_interface.cycles.select = ConfigSectionMap("CycleCounts")['select']
-    acc.llvm_interface.cycles.ret = ConfigSectionMap("CycleCounts")['ret']
-    acc.llvm_interface.cycles.br = ConfigSectionMap("CycleCounts")['br']
-    acc.llvm_interface.cycles.switch_inst = ConfigSectionMap("CycleCounts")['switch']
-    acc.llvm_interface.cycles.indirectbr = ConfigSectionMap("CycleCounts")['indirectbr']
-    acc.llvm_interface.cycles.invoke = ConfigSectionMap("CycleCounts")['invoke']
-    acc.llvm_interface.cycles.resume = ConfigSectionMap("CycleCounts")['resume']
-    acc.llvm_interface.cycles.unreachable = ConfigSectionMap("CycleCounts")['unreachable']
-    acc.llvm_interface.cycles.icmp = ConfigSectionMap("CycleCounts")['icmp']
-    acc.llvm_interface.cycles.fcmp = ConfigSectionMap("CycleCounts")['fcmp']
-    acc.llvm_interface.cycles.trunc = ConfigSectionMap("CycleCounts")['trunc']
-    acc.llvm_interface.cycles.zext = ConfigSectionMap("CycleCounts")['zext']
-    acc.llvm_interface.cycles.sext = ConfigSectionMap("CycleCounts")['sext']
-    acc.llvm_interface.cycles.fptrunc = ConfigSectionMap("CycleCounts")['fptrunc']
-    acc.llvm_interface.cycles.fpext = ConfigSectionMap("CycleCounts")['fpext']
-    acc.llvm_interface.cycles.fptoui = ConfigSectionMap("CycleCounts")['fptoui']
-    acc.llvm_interface.cycles.fptosi = ConfigSectionMap("CycleCounts")['fptosi']
-    acc.llvm_interface.cycles.uitofp = ConfigSectionMap("CycleCounts")['uitofp']
-    acc.llvm_interface.cycles.ptrtoint = ConfigSectionMap("CycleCounts")['ptrtoint']
-    acc.llvm_interface.cycles.inttoptr = ConfigSectionMap("CycleCounts")['inttoptr']
-    acc.llvm_interface.cycles.bitcast = ConfigSectionMap("CycleCounts")['bitcast']
-    acc.llvm_interface.cycles.addrspacecast = ConfigSectionMap("CycleCounts")['addrspacecast']
-    acc.llvm_interface.cycles.call = ConfigSectionMap("CycleCounts")['call']
-    acc.llvm_interface.cycles.vaarg = ConfigSectionMap("CycleCounts")['vaarg']
-    acc.llvm_interface.cycles.landingpad = ConfigSectionMap("CycleCounts")['landingpad']
-    acc.llvm_interface.cycles.catchpad = ConfigSectionMap("CycleCounts")['catchpad']
-    acc.llvm_interface.cycles.alloca = ConfigSectionMap("CycleCounts")['alloca']
-    acc.llvm_interface.cycles.load = ConfigSectionMap("CycleCounts")['load']
-    acc.llvm_interface.cycles.store = ConfigSectionMap("CycleCounts")['store']
-    acc.llvm_interface.cycles.fence = ConfigSectionMap("CycleCounts")['fence']
-    acc.llvm_interface.cycles.cmpxchg = ConfigSectionMap("CycleCounts")['cmpxchg']
-    acc.llvm_interface.cycles.atomicrmw = ConfigSectionMap("CycleCounts")['atomicrmw']
-    acc.llvm_interface.cycles.extractvalue = ConfigSectionMap("CycleCounts")['extractvalue']
-    acc.llvm_interface.cycles.insertvalue = ConfigSectionMap("CycleCounts")['insertvalue']
-    acc.llvm_interface.cycles.extractelement = ConfigSectionMap("CycleCounts")['extractelement']
-    acc.llvm_interface.cycles.insertelement = ConfigSectionMap("CycleCounts")['insertelement']
-    acc.llvm_interface.cycles.shufflevector = ConfigSectionMap("CycleCounts")['shufflevector']
-    acc.llvm_interface.cycles.shl = ConfigSectionMap("CycleCounts")['shl']
-    acc.llvm_interface.cycles.lshr = ConfigSectionMap("CycleCounts")['lshr']
-    acc.llvm_interface.cycles.ashr = ConfigSectionMap("CycleCounts")['ashr']
-    acc.llvm_interface.cycles.and_inst = ConfigSectionMap("CycleCounts")['andinst']
-    acc.llvm_interface.cycles.or_inst = ConfigSectionMap("CycleCounts")['orinst']
-    acc.llvm_interface.cycles.xor_inst = ConfigSectionMap("CycleCounts")['xor']
-    acc.llvm_interface.cycles.add = ConfigSectionMap("CycleCounts")['add']
-    acc.llvm_interface.cycles.sub = ConfigSectionMap("CycleCounts")['sub']
-    acc.llvm_interface.cycles.mul = ConfigSectionMap("CycleCounts")['mul']
-    acc.llvm_interface.cycles.udiv = ConfigSectionMap("CycleCounts")['udiv']
-    acc.llvm_interface.cycles.sdiv = ConfigSectionMap("CycleCounts")['sdiv']
-    acc.llvm_interface.cycles.urem = ConfigSectionMap("CycleCounts")['urem']
-    acc.llvm_interface.cycles.srem = ConfigSectionMap("CycleCounts")['srem']
-    acc.llvm_interface.cycles.fadd = ConfigSectionMap("CycleCounts")['fadd']
-    acc.llvm_interface.cycles.fsub = ConfigSectionMap("CycleCounts")['fsub']
-    acc.llvm_interface.cycles.fmul = ConfigSectionMap("CycleCounts")['fmul']
-    acc.llvm_interface.cycles.fdiv = ConfigSectionMap("CycleCounts")['fdiv']
-    acc.llvm_interface.cycles.frem = ConfigSectionMap("CycleCounts")['frem']
 
-    # Set functional units
-    acc.llvm_interface.FU_fp_sp_adder = ConfigSectionMap("FunctionalUnits")['fp_sp_add']
-    acc.llvm_interface.FU_fp_dp_adder = ConfigSectionMap("FunctionalUnits")['fp_dp_add']
-    acc.llvm_interface.FU_fp_sp_multiplier = ConfigSectionMap("FunctionalUnits")['fp_sp_mul']
-    acc.llvm_interface.FU_fp_sp_divider = ConfigSectionMap("FunctionalUnits")['fp_sp_div']
-    acc.llvm_interface.FU_fp_dp_multiplier = ConfigSectionMap("FunctionalUnits")['fp_dp_mul']
-    acc.llvm_interface.FU_fp_dp_divider = ConfigSectionMap("FunctionalUnits")['fp_dp_div']
-    acc.llvm_interface.FU_counter = ConfigSectionMap("FunctionalUnits")['fu_counter']
-    acc.llvm_interface.FU_compare = ConfigSectionMap("FunctionalUnits")['fu_compare']
-    acc.llvm_interface.FU_GEP = ConfigSectionMap("FunctionalUnits")['fu_gep']
-    acc.llvm_interface.FU_int_multiplier = ConfigSectionMap("FunctionalUnits")['fu_int_mul']
-    acc.llvm_interface.FU_int_adder = ConfigSectionMap("FunctionalUnits")['fu_int_add']
-    acc.llvm_interface.FU_int_shifter = ConfigSectionMap("FunctionalUnits")['fu_int_shift']
-    acc.llvm_interface.FU_int_bit = ConfigSectionMap("FunctionalUnits")['fu_int_bit']
-    acc.llvm_interface.FU_conversion = ConfigSectionMap("FunctionalUnits")['fu_conversion']
+    # lenet config launcher custom stuff
+    benchPath = Path(bench_file).parts
+    m5PathLen = len(Path(M5_Path).parts)
 
     # Set scheduling constraints
-    acc.llvm_interface.FU_pipelined = ConfigSectionMap("Scheduler")['fu_pipelined']
-    acc.llvm_interface.sched_threshold = ConfigSectionMap("Scheduler")['sched_threshold']
-    acc.llvm_interface.FU_clock_period = ConfigSectionMap("Scheduler")['fu_clock_period']
-    acc.llvm_interface.clock_period = ConfigSectionMap("AccConfig")['clock_period']
-    acc.llvm_interface.lockstep_mode = Config.getboolean("Scheduler", 'lockstep_mode')
+    #acc.llvm_interface.sched_threshold = ConfigSectionMap("Scheduler")['sched_threshold']
+    #acc.llvm_interface.clock_period = ConfigSectionMap("AccConfig")['clock_period']
+    #acc.llvm_interface.lockstep_mode = Config.getboolean("Scheduler", 'lockstep_mode')
 
-def AccSPMConfig(acc, spm, config_file):
+    #TODO: Auto generate the functional unit list
+
+	# Initialize HWInterface Objects
+    acc.hw_interface = HWInterface()
+    # Define HW Counts
+    acc.hw_interface.cycle_counts = CycleCounts()
+    #acc.hw_interface.cycle_counts
+    
+    if m5PathLen + 1 < len(benchPath) and benchPath[m5PathLen+1] == 'mobilenetv2':
+        fu_yaml = open(config_file, 'r')
+        for yaml_inst_list in yaml.safe_load_all(fu_yaml):
+            document = yaml_inst_list['acc_cluster']
+            current_acc = document[0]['Name'] + '_' + benchname 
+            if(benchPath[9] == document[0]['Name']):
+                print(current_acc + " Profile Loaded")
+                # print(yaml_inst_list['hw_config'][benchname])
+                inst_list = yaml_inst_list['hw_config'][current_acc]['instructions'].keys()
+                for instruction in inst_list:
+                    setattr(acc.hw_interface.cycle_counts, instruction, yaml_inst_list['hw_config'][current_acc]['instructions'][instruction]['runtime_cycles'])
+        fu_yaml.close()
+    
+    else:
+        print("config = ", config_file)
+        fu_yaml = open(config_file, 'r')
+        
+        yaml_inst_list = yaml.safe_load(fu_yaml)
+        if yaml_inst_list['hw_config'][benchname] is not None:
+            inst_list = yaml_inst_list['hw_config'][benchname]['instructions'].keys()
+            for instruction in inst_list:
+                setattr(acc.hw_interface.cycle_counts, instruction, yaml_inst_list['hw_config'][benchname]['instructions'][instruction]['runtime_cycles'])
+        fu_yaml.close()
+
+    #TODO Automate the generation of the list below
+    # Functional Units
+    acc.hw_interface.functional_units = FunctionalUnits()
+    acc.hw_interface.functional_units.double_multiplier = DoubleMultiplier() 
+    acc.hw_interface.functional_units.bit_register = BitRegister()
+    acc.hw_interface.functional_units.bitwise_operations = BitwiseOperations()
+    acc.hw_interface.functional_units.double_adder = DoubleAdder()
+    acc.hw_interface.functional_units.float_divider = FloatDivider()
+    acc.hw_interface.functional_units.bit_shifter = BitShifter()
+    acc.hw_interface.functional_units.integer_multiplier = IntegerMultiplier()
+    acc.hw_interface.functional_units.integer_adder = IntegerAdder()
+    acc.hw_interface.functional_units.double_divider = DoubleDivider()
+    acc.hw_interface.functional_units.float_adder = FloatAdder()
+    acc.hw_interface.functional_units.float_multiplier = FloatMultiplier()
+
+    #TODO Automate the generation of the list below
+    # Instructions
+    acc.hw_interface.inst_config = InstConfig()
+    acc.hw_interface.inst_config.add = Add()
+    acc.hw_interface.inst_config.addrspacecast = Addrspacecast()
+    acc.hw_interface.inst_config.alloca = Alloca()
+    acc.hw_interface.inst_config.and_inst = AndInst()
+    acc.hw_interface.inst_config.ashr = Ashr()
+    acc.hw_interface.inst_config.bitcast = Bitcast()
+    acc.hw_interface.inst_config.br = Br()
+    acc.hw_interface.inst_config.call = Call()
+    acc.hw_interface.inst_config.fadd = Fadd()
+    acc.hw_interface.inst_config.fcmp = Fcmp()
+    acc.hw_interface.inst_config.fdiv = Fdiv()
+    acc.hw_interface.inst_config.fence = Fence()
+    acc.hw_interface.inst_config.fmul = Fmul()
+    acc.hw_interface.inst_config.fpext = Fpext()
+    acc.hw_interface.inst_config.fptosi = Fptosi()
+    acc.hw_interface.inst_config.fptoui = Fptoui()
+    acc.hw_interface.inst_config.fptrunc = Fptrunc()
+    acc.hw_interface.inst_config.frem = Frem()
+    acc.hw_interface.inst_config.fsub = Fsub()
+    acc.hw_interface.inst_config.gep = Gep()
+    acc.hw_interface.inst_config.icmp = Icmp()
+    acc.hw_interface.inst_config.indirectbr = Indirectbr()
+    acc.hw_interface.inst_config.inttoptr = Inttoptr()
+    acc.hw_interface.inst_config.invoke = Invoke()
+    acc.hw_interface.inst_config.landingpad = Landingpad()
+    acc.hw_interface.inst_config.load = Load()
+    acc.hw_interface.inst_config.lshr = Lshr()
+    acc.hw_interface.inst_config.mul = Mul()
+    acc.hw_interface.inst_config.or_inst = OrInst()
+    acc.hw_interface.inst_config.phi = Phi()
+    acc.hw_interface.inst_config.ptrtoint = Ptrtoint()
+    acc.hw_interface.inst_config.resume = Resume()
+    acc.hw_interface.inst_config.ret = Ret()
+    acc.hw_interface.inst_config.sdiv = Sdiv()
+    acc.hw_interface.inst_config.select = Select()
+    acc.hw_interface.inst_config.sext = Sext()
+    acc.hw_interface.inst_config.shl = Shl()
+    acc.hw_interface.inst_config.srem = Srem()
+    acc.hw_interface.inst_config.store = Store()
+    acc.hw_interface.inst_config.sub = Sub()
+    acc.hw_interface.inst_config.switch_inst = SwitchInst()
+    acc.hw_interface.inst_config.trunc = Trunc()
+    acc.hw_interface.inst_config.udiv = Udiv()
+    acc.hw_interface.inst_config.uitofp = Uitofp()
+    acc.hw_interface.inst_config.unreachable = Unreachable()
+    acc.hw_interface.inst_config.urem = Urem()
+    acc.hw_interface.inst_config.vaarg = Vaarg()
+    acc.hw_interface.inst_config.xor_inst = XorInst()
+    acc.hw_interface.inst_config.zext = Zext()
+
+
+    acc.hw_interface.salam_power_model = SALAMPowerModel()
+    acc.hw_interface.hw_statistics = HWStatistics()
+    acc.hw_interface.simulator_config = SimulatorConfig()
+    acc.hw_interface.opcodes = InstOpCodes()
+
+#def AccSPMConfig(acc, spm, config_file):
     # Setup config file parser
-    Config = ConfigParser.ConfigParser()
-    Config.read((config_file))
-    Config.sections()
-    def ConfigSectionMap(section):
-        dict1 = {}
-        options = Config.options(section)
-        for option in options:
-            try:
-                dict1[option] = Config.get(section, option)
-                if dict1[option] == -1:
-                    DebugPrint("skip: %s" % option)
-            except:
-                print("exception on %s!" % option)
-                dict1[option] = None
-        return dict1
+    #Config = ConfigParser.ConfigParser()
+    #Config.read((config_file))
+    #Config.sections()
+    #def ConfigSectionMap(section):
+    #    dict1 = {}
+    #    options = Config.options(section)
+    #    for option in options:
+    #        try:
+    #            dict1[option] = Config.get(section, option)
+    #            if dict1[option] == -1:
+    #                DebugPrint("skip: %s" % option)
+    #        except:
+    #            print("exception on %s!" % option)
+    #            dict1[option] = None
+    #    return dict1
 
-    spm.range = AddrRange(ConfigSectionMap("Memory")['addr_range'], \
-                          size=ConfigSectionMap("Memory")['size'])
-    spm.latency = ConfigSectionMap("Memory")['latency']
-    spm.conf_table_reported = False
-    spm.ready_mode = Config.getboolean("Memory", 'ready_mode')
-    spm.reset_on_scratchpad_read = Config.getboolean("Memory", 'reset_on_private_read')
-    num_ports = ConfigSectionMap("Memory")['ports']
-    for i in range(int(num_ports)):
-        acc.spm[i] = spm.spm_ports[i]
+    #spm.range = AddrRange(ConfigSectionMap("Memory")['addr_range'], \
+    #                      size=ConfigSectionMap("Memory")['size'])
+    #spm.latency = ConfigSectionMap("Memory")['latency']
+    #spm.conf_table_reported = False
+    #spm.ready_mode = Config.getboolean("Memory", 'ready_mode')
+    #spm.reset_on_scratchpad_read = Config.getboolean("Memory", 'reset_on_private_read')
+    #num_ports = ConfigSectionMap("Memory")['ports']
+    #for i in range(int(num_ports)):
+    #    acc.spm[i] = spm.spm_ports[i]
