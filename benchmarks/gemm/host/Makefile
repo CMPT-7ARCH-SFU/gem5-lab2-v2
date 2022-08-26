@@ -30,31 +30,15 @@
 #
 # Authors: 	Matthias Jung
 #			Frederik Lauer
+include ../../common/Makefile
 
-CROSS_COMPILE_DIR = ~/arm_gcc/gcc-arm-none-eabi-10.3-2021.10/bin
+OBJS         = boot.o ../../common/syscalls.o main.o isr.o
 
-ARCH          ?= arm
-CROSS_COMPILE ?= arm-none-eabi-
-#CROSS_COMPILE_DIR = /home/samerogers/aarch64-toolchain/bin
+main.elf: $(OBJS) $(LNK_SCRIPT) Makefile
+	$(CC) $(LNK_FILE_OPT) -o $@ $(OBJS) $(LNK_OPT)
 
-#ARCH          ?= aarch64
-#CROSS_COMPILE ?= aarch64-elf-
+boot.o: Makefile
+	$(CPP) boot.s $(CFLAGS) | $(AS) $(ASFLAGS) -o boot.o
 
-AS           = $(CROSS_COMPILE_DIR)/$(CROSS_COMPILE)as
-LD           = $(CROSS_COMPILE_DIR)/$(CROSS_COMPILE)ld
-CC           = $(CROSS_COMPILE_DIR)/$(CROSS_COMPILE)gcc
-CXX          = $(CROSS_COMPILE_DIR)/$(CROSS_COMPILE)g++
-CPP          = $(CROSS_COMPILE_DIR)/$(CROSS_COMPILE)cpp
-AR           = $(CROSS_COMPILE_DIR)/$(CROSS_COMPILE)ar
-NM           = $(CROSS_COMPILE_DIR)/$(CROSS_COMPILE)nm
-STRIP        = $(CROSS_COMPILE_DIR)/$(CROSS_COMPILE)strip
-OBJCOPY      = $(CROSS_COMPILE_DIR)/$(CROSS_COMPILE)objcopy
-OBJDUMP      = $(CROSS_COMPILE_DIR)/$(CROSS_COMPILE)objdump
-
-CFLAGS       = -g -O3 -lunistd -I .
-CXXFLAGS     = -g -O3 -lunistd -I . -fno-exceptions
-ASFLAGS      = -EL
-LNK_OPT      = -nostartfiles
-LNK_SCRIPT   = boot.ld
-#LNK_SCRIPT   = start64.ld
-LNK_FILE_OPT = -nostartfiles -Xlinker -T$(LNK_SCRIPT)
+clean:
+	rm -f *.o *.elf

@@ -54,7 +54,7 @@ OBJDUMP      = $(CROSS_COMPILE_DIR)/$(CROSS_COMPILE)objdump
 CFLAGS       = -g -O3 -lunistd -I .
 CXXFLAGS     = -g -O3 -lunistd -I . -fno-exceptions
 ASFLAGS      = -EL
-LNK_OPT      = -nostartfiles
+LNK_OPT      = -nostartfiles -specs=nosys.specs
 LNK_SCRIPT   = boot.ld
 #LNK_SCRIPT   = start64.ld
 LNK_FILE_OPT = -nostartfiles -Xlinker -T$(LNK_SCRIPT)
