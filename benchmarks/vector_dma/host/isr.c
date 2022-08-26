@@ -6,4 +6,6 @@ void isr(void)
 {
 	printf("Interrupt\n\r");
 	*ACC = 0x00;
+	printf("Interrupt\n\r");
+
 }

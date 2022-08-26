@@ -7,20 +7,6 @@
 
 volatile uint8_t  *ACC  = (uint8_t *)VECTOR_DMA;
 
-inline void DmaCopy(void *dst, void *src, int len) {
-  volatile uint8_t  * DmaFlags   = (uint8_t  *)(DMA_Flags);
-	volatile uint64_t * DmaRdAddr  = (uint64_t *)(DMA_RdAddr);
-	volatile uint64_t * DmaWrAddr  = (uint64_t *)(DMA_WrAddr);
-	volatile uint32_t * DmaCopyLen = (uint32_t *)(DMA_CopyLen);
-	//Transfer Input Features
-  *DmaRdAddr  = (uint32_t)src;
-	*DmaWrAddr  = (uint32_t)dst;
-	*DmaCopyLen = len;
-	*DmaFlags   = DEV_INIT;
-	//Poll DMA for finish
-	while ((*DmaFlags & DEV_INTR) != DEV_INTR);
-}
-
 int main(void) {
   m5_reset_stats();
   uint64_t base = 0x80c00000;
@@ -43,7 +29,12 @@ int main(void) {
   TYPE *spm2 = (TYPE *)((TYPE)spm_base + sizeof(TYPE) * N *2 );
   TYPE *spm3 = (TYPE *)((TYPE)spm_base + 2 * sizeof(TYPE) * N * 2);
 #endif
-  
+  TYPE* ARG1 = (TYPE*) ACC + sizeof(char);
+  TYPE* ARG2 = (TYPE*) ARG1 + sizeof(TYPE);
+  TYPE* ARG3 = (TYPE*) ARG2 + sizeof(TYPE);
+
+  *ARG1 = (TYPE)spm1;
+  printf("Arg1: %p -> %p, Arg2: %p, Arg3: %x\n", ARG1, *ARG1, ARG2, ARG3);
   //Transfer Input Matrices
 	//Transfer M1
   DmaCopy(spm1, m1, N * sizeof(TYPE));
@@ -52,8 +43,7 @@ int main(void) {
 
 	// Start the accelerated function
 	*ACC = DEV_INIT;
-	//Poll function for finish
-	while ((*ACC & DEV_INTR) != DEV_INTR);
+	while (*ACC != 0);
 
 	// //Transfer M3
   DmaCopy(m3, spm3, N * sizeof(TYPE));

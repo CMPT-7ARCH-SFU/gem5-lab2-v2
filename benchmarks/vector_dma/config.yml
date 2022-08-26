@@ -15,6 +15,7 @@ acc_cluster:
       Debug: False
       PIOSize: 1
       PIOMaster: LocalBus
+      InterruptNum: 68
     - Var:
       - Name: MATRIX1
         Type: SPM
