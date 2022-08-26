@@ -39,7 +39,7 @@ def buildvector_dma_clstr(options, system, clstr):
 	acc = "vector_dma"
 	ir = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/vector_dma/hw/vector_dma.ll"
 	config = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/vector_dma/config.yml"
-	clstr.vector_dma = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020040, pio_size=64)
+	clstr.vector_dma = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020040, pio_size=64, int_num=68)
 	AccConfig(clstr.vector_dma, ir, config)
 	
 	# vector_dma Config
