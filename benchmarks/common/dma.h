@@ -1,6 +1,8 @@
 #ifndef __DMA_H__
 #define __DMA_H__
-
+#include <cstddef>
+#include <stdio.h>
+#include <stdlib.h>
 #define MMR_ADDR    0x2ff00000
 
 volatile char * FLAGS = (char *)(MMR_ADDR);
