@@ -1,7 +1,7 @@
 import m5
 from m5.objects import *
 from m5.util import *
-import ConfigParser
+from configparser import ConfigParser
 from HWAccConfig import *
 
 def makeHWAcc(options, system):
@@ -28,7 +28,6 @@ def makeHWAcc(options, system):
     # acc_config = <Absolute path to the config file>
     acc_config = options.accpath + "/" + options.accbench + "/" + "hw/configs/" + "top.ini"
 
-    print(acc_config)
 
     system.acctest.top = CommInterface(devicename="top")
 

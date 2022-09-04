@@ -1,5 +1,5 @@
 #!/bin/bash
-FLAGS="HWACC,LLVMRuntime,LLVMInterface"
+FLAGS="HWACC"
 BENCH=""
 DEBUG="false"
 PRINT_TO_FILE="false"
@@ -40,7 +40,7 @@ else
 fi
 
 KERNEL=$LAB_PATH/benchmarks/$BENCH/host/main.elf
-SYS_OPTS="--mem-size=4GB \
+SYS_OPTS="--mem-size=8GB \
           --kernel=$KERNEL \
           --disk-image=$M5_PATH/baremetal/common/fake.iso \
           --machine-type=VExpress_GEM5_V1 \
@@ -51,9 +51,14 @@ CACHE_OPTS="--caches --l2cache --acc_cache"
 # --debug-flags=$FLAGS
 
 OUTDIR=BM_ARM_OUT/$BENCH
+# ${LAB_PATH}/SALAM-Configurator/systembuilder.py --sysName $BENCH --benchDir "benchmarks/${BENCH}"
 
+# RUN_SCRIPT="$BINARY $DEBUG_FLAGS --outdir=$OUTDIR \
+# 			configs/SALAM/generated/fs_$BENCH.py $SYS_OPTS \
+# 			--accpath=$LAB_PATH/benchmarks \
+# 			--accbench=$BENCH $CACHE_OPTS"
 RUN_SCRIPT="$BINARY --debug-flags=$FLAGS --outdir=$OUTDIR \
-			gem5-config/run_multi.py $SYS_OPTS \
+			gem5-config/fs_$BENCH.py $SYS_OPTS \
 			--accpath=$LAB_PATH/benchmarks \
 			--accbench=$BENCH $CACHE_OPTS"
 

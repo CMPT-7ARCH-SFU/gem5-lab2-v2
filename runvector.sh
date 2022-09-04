@@ -1,6 +1,6 @@
 #!/bin/bash
 # Uncomment if you want trace. Dumps txt trace. Do not enable for large programs.
-FLAGS="HWACC,LLVMRuntime"
+FLAGS="Runtime"
 # NoncoherentDma only dumps the copy from and to host
 #FLAGS="NoncoherentDma"
 BENCH=""
@@ -58,11 +58,27 @@ CACHE_OPTS="--caches --l2cache --acc_cache"
 # --debug-flags=$FLAGS
 
 OUTDIR=BM_ARM_OUT/$BENCH
+DEBUG_FLAGS=""
 
-RUN_SCRIPT="$BINARY --debug-flags=$FLAGS --outdir=$OUTDIR \
-			gem5-config/run_vector.py $SYS_OPTS \
+if [ "${FLAGS}" != "" ]; then
+	DEBUG_FLAGS+="--debug-flags="
+	DEBUG_FLAGS+=$FLAGS
+fi
+# ${LAB_PATH}/SALAM-Configurator/systembuilder.py --sysName $BENCH --benchDir "benchmarks/${BENCH}"
+
+# RUN_SCRIPT="$BINARY $DEBUG_FLAGS --outdir=$OUTDIR \
+# 			configs/SALAM/generated/fs_$BENCH.py $SYS_OPTS \
+# 			--accpath=$LAB_PATH/benchmarks \
+# 			--accbench=$BENCH $CACHE_OPTS"
+RUN_SCRIPT="$BINARY $DEBUG_FLAGS --outdir=$OUTDIR \
+			gem5-config/fs_$BENCH.py $SYS_OPTS \
 			--accpath=$LAB_PATH/benchmarks \
 			--accbench=$BENCH $CACHE_OPTS"
+
+# RUN_SCRIPT="$BINARY $DEBUG_FLAGS --outdir=$OUTDIR \
+# 			gem5-config/run_vector.py $SYS_OPTS \
+# 			--accpath=$LAB_PATH/benchmarks \
+# 			--accbench=$BENCH $CACHE_OPTS"
 
 if [ "${PRINT_TO_FILE}" == "true" ]; then
 	mkdir -p $OUTDIR
@@ -85,5 +101,9 @@ fi
 # LLVMGEP
 # LLVMRuntime == ComputeNode + LLVMRegister + LLVMOp + LLVMParse
 # NoncoherentDma - bfs, fft, gemm, md-knn, nw, spmv
+
+
+
+
 
 
