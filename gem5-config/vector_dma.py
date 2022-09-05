@@ -24,7 +24,7 @@ def buildvector_dma_clstr(options, system, clstr):
 	local_range = AddrRange(local_low, local_high)
 	external_range = [AddrRange(0x00000000, local_low-1), AddrRange(local_high+1, 0xFFFFFFFF)]
 	system.iobus.mem_side_ports = clstr.local_bus.cpu_side_ports
-	clstr._connect_caches(system, options, l2coherent=False)
+	clstr._connect_caches(system, options, l2coherent=True)
 	gic = system.realview.gic
 
 	# Noncoherent DMA

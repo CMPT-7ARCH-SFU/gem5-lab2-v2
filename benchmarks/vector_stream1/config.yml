@@ -1,6 +1,14 @@
 ---
 acc_cluster:
-  - Name: vector_dma_clstr
+  - Name: vector_stream_clstr
+  - DMA:
+    - Name: StreamDma
+      PIOMaster: LocalBus
+      Size: 8
+      Type: Stream
+      ReadInt: 210
+      WriteInt: 211
+      BufferSize: 128
   - DMA:
     - Name: dma
       MaxReqSize: 64
@@ -9,36 +17,69 @@ acc_cluster:
       Type: NonCoherent
       InterruptNum: 95
   - Accelerator:
-    - Name: vector_dma
-      IrPath: benchmarks/vector_dma/hw/vector_dma.ll
-      ConfigPath: benchmarks/vector_dma/hw/vector_dma.ini
-      Debug: False
+    - Name: Top
+      IrPath: benchmarks/vector_stream/hw/top.ll
+      ConfigPath: benchmarks/vector_stream/hw/top.ini
       PIOSize: 25
-      PIOMaster: LocalBus
       InterruptNum: 68
+      PIOMaster: LocalBus
+      # Local to PIO
+      LocalSlaves: LocalBus
+      Debug: False
+  - Accelerator:
+    - Name: vector_stream
+      IrPath: benchmarks/vector_stream/hw/vector_stream.ll
+      ConfigPath: benchmarks/vector_stream/hw/vector_stream.ini
+      Debug: False
+      PIOSize: 1
+      PIOMaster: LocalBus
     - Var:
       - Name: MATRIX1
         Type: SPM
-        Size: 64
+        Size: 512
         Ports: 2
     - Var:
       - Name: MATRIX2
         Type: SPM
-        Size: 64
+        Size: 512
         Ports: 2
     - Var:
       - Name: MATRIX3
         Type: SPM
-        Size: 64
+        Size: 512
+        Ports: 2
+  - Accelerator:
+    - Name: vector2
+      IrPath: benchmarks/vector_stream/hw/vector2.ll
+      ConfigPath: benchmarks/vector_stream/hw/vector2.ini
+      Debug: False
+      PIOSize: 1
+      PIOMaster: LocalBus
+    - Var:
+      - Name: V2_MAT1
+        Type: SPM
+        Size: 512
+        Ports: 2
+    - Var:
+      - Name: V2_MAT2
+        Type: SPM
+        Size: 512
+        Ports: 2
+    - Var:
+      - Name: V2_MAT3
+        Type: SPM
+        Size: 512
         Ports: 2
 hw_config:
-  vector_dma:
+  top:
+  vector2:
+  vector_stream:
     instructions:
       add:
         functional_unit: 1
         functional_unit_limit: 0
         opcode_num: 13
-        runtime_cycles: 1
+        runtime_cycles: 0
       addrspacecast:
         functional_unit: 0
         functional_unit_limit: 0

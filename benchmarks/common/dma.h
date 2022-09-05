@@ -3,6 +3,8 @@
 // #include <cstddef>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+
 #define MMR_ADDR    0x2ff00000
 
 // volatile char * FLAGS = (char *)(MMR_ADDR);

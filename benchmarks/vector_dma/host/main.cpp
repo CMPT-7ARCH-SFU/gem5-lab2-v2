@@ -29,12 +29,13 @@ int main(void) {
   TYPE *spm2 = (TYPE *)((TYPE)spm_base + sizeof(TYPE) * N *2 );
   TYPE *spm3 = (TYPE *)((TYPE)spm_base + 2 * sizeof(TYPE) * N * 2);
 #endif
-  TYPE* ARG1 = (TYPE*) ACC + sizeof(char);
-  TYPE* ARG2 = (TYPE*) ARG1 + sizeof(TYPE);
-  TYPE* ARG3 = (TYPE*) ARG2 + sizeof(TYPE);
+  TYPE* ARG1 = (TYPE*)( ACC + 0x1);
+  TYPE* ARG2 = (TYPE*) (ACC + 0x09);
+  TYPE* ARG3 = (TYPE*) (ACC + 0x11);
 
   *ARG1 = (TYPE)spm1;
-  printf("Arg1: %p -> %p, Arg2: %p, Arg3: %x\n", ARG1, *ARG1, ARG2, ARG3);
+  *ARG2 = (TYPE)spm2;
+  *ARG3 = (TYPE)spm3;
   //Transfer Input Matrices
 	//Transfer M1
   DmaCopy(spm1, m1, N * sizeof(TYPE));

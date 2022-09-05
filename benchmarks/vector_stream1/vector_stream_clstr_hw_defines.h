@@ -1,0 +1,32 @@
+//BEGIN GENERATED CODE
+//Cluster: VECTOR_STREAM_CLSTR
+//StreamDMA
+#define STREAMDMA_Flags 0x10020000
+#define STREAMDMA_RdAddr 0x10020004
+#define STREAMDMA_WrAddr 0x1002000c
+#define STREAMDMA_RdFrameSize 0x10020014
+#define STREAMDMA_NumRdFrames 0x10020018
+#define STREAMDMA_RdFrameBufSize 0x10020019
+#define STREAMDMA_WrFrameSize 0x1002001a
+#define STREAMDMA_NumWrFrames 0x1002001e
+#define STREAMDMA_WrFrameBufSize 0x1002001f
+#define STREAMDMA_Stream 0x10020020
+#define STREAMDMA_Status 0x10020040
+//NonCoherentDMA
+#define DMA_Flags 0x10020080
+#define DMA_RdAddr 0x10020081
+#define DMA_WrAddr 0x10020089
+#define DMA_CopyLen 0x10020091
+//Accelerator: TOP
+#define TOP 0x100200c0
+//Accelerator: VECTOR_STREAM
+#define VECTOR_STREAM 0x10020100
+#define MATRIX1 0x10020140
+#define MATRIX2 0x10020380
+#define MATRIX3 0x100205c0
+//Accelerator: VECTOR2
+#define VECTOR2 0x10020800
+#define V2_MAT1 0x10020840
+#define V2_MAT2 0x10020a80
+#define V2_MAT3 0x10020cc0
+//END GENERATED CODE
