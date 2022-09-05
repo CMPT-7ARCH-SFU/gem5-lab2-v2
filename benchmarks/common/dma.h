@@ -5,6 +5,14 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#define dType_Reg		int32_t
+#define dType_8u		uint8_t
+#define dType_16u		uint16_t
+#define dType_32u		uint32_t
+#define dType_8t		int8_t
+#define dType_16t		int16_t
+#define dType_32t		int32_t
+
 #define MMR_ADDR    0x2ff00000
 
 // volatile char * FLAGS = (char *)(MMR_ADDR);

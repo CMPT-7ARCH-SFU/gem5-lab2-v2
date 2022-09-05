@@ -19,14 +19,15 @@
 #define DMA_CopyLen 0x10020091
 //Accelerator: TOP
 #define TOP 0x100200c0
-//Accelerator: VECTOR_STREAM
-#define VECTOR_STREAM 0x10020100
-#define MATRIX1 0x10020140
-#define MATRIX2 0x10020380
-#define MATRIX3 0x100205c0
-//Accelerator: VECTOR2
-#define VECTOR2 0x10020800
-#define V2_MAT1 0x10020840
-#define V2_MAT2 0x10020a80
-#define V2_MAT3 0x10020cc0
+//Accelerator: S1
+#define S1 0x10020100
+#define S1Buffer 0x10020140
+#define S1Out 0x10020380
+#define S1Out_Status 0x100203c0
+//Accelerator: S2
+#define S2 0x10020400
+#define S2Out 0x10020440
+#define S2Out_Status 0x10020480
+//Accelerator: S3
+#define S3 0x100204c0
 //END GENERATED CODE

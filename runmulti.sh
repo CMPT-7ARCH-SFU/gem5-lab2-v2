@@ -45,7 +45,7 @@ SYS_OPTS="--mem-size=8GB \
           --disk-image=$M5_PATH/baremetal/common/fake.iso \
           --machine-type=VExpress_GEM5_V1 \
           --dtb-file=none --bare-metal \
-          --cpu-type=MinorCPU"
+          --cpu-type=DerivO3CPU"
 CACHE_OPTS="--caches --l2cache --acc_cache"
 # Script to start up full system simulation
 # --debug-flags=$FLAGS
@@ -56,7 +56,7 @@ OUTDIR=BM_ARM_OUT/$BENCH
 # RUN_SCRIPT="$BINARY $DEBUG_FLAGS --outdir=$OUTDIR \
 # 			configs/SALAM/generated/fs_$BENCH.py $SYS_OPTS \
 # 			--accpath=$LAB_PATH/benchmarks \
-# 			--accbench=$BENCH $CACHE_OPTS"
+			# --accbench=$BENCH $CACHE_OPTS"
 RUN_SCRIPT="$BINARY --debug-flags=$FLAGS --outdir=$OUTDIR \
 			gem5-config/fs_$BENCH.py $SYS_OPTS \
 			--accpath=$LAB_PATH/benchmarks \

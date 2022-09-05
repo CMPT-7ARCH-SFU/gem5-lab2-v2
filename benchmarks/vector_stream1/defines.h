@@ -7,6 +7,13 @@
 #define COL 64
 #define CHECK
 
+#define StreamIn  0x10020000 + 32
+#define StreamOut 0x10020000 + 32
+#define S3In S2Out
+#define S1In StreamIn
+#define S3Out StreamOut
+#define S2In S1Out
+
 #define TYPE uint32_t
 #define vector_size N * sizeof(TYPE)
 

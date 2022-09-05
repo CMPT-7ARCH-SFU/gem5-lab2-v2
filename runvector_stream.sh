@@ -28,7 +28,7 @@ else
 	BINARY="${M5_PATH}/build/ARM/gem5.opt"
 fi
 
-KERNEL=$LAB_PATH/benchmarks/vector_stream/host/main.elf
+KERNEL=$LAB_PATH/benchmarks/vector_stream1/host/main.elf
 SYS_OPTS="--mem-size=4GB \
           --kernel=$KERNEL \
           --disk-image=$M5_PATH/baremetal/common/fake.iso \
@@ -37,11 +37,21 @@ SYS_OPTS="--mem-size=4GB \
           --cpu-type=DerivO3CPU"
 CACHE_OPTS="--caches --l2cache --acc_cache"
 
-OUTDIR=BM_ARM_OUT/vector_stream
+OUTDIR=BM_ARM_OUT/vector_stream1
+BENCH=vector_stream1
+# ${LAB_PATH}/SALAM-Configurator/systembuilder.py --sysName $BENCH --benchDir "benchmarks/${BENCH}"
 
-RUN_SCRIPT="$BINARY --outdir=$OUTDIR \
-			gem5-config/run_vector_stream.py $SYS_OPTS \
-			--accpath=$LAB_PATH/benchmarks --accbench=vector_stream $CACHE_OPTS"
+# RUN_SCRIPT="$BINARY $DEBUG_FLAGS --outdir=$OUTDIR \
+# 			configs/SALAM/generated/fs_$BENCH.py $SYS_OPTS \
+# 			--accpath=$LAB_PATH/benchmarks \
+# 			--accbench=$BENCH $CACHE_OPTS"
+RUN_SCRIPT="$BINARY $DEBUG_FLAGS --outdir=$OUTDIR \
+			gem5-config/fs_$BENCH.py $SYS_OPTS \
+			--accpath=$LAB_PATH/benchmarks \
+			--accbench=$BENCH $CACHE_OPTS"
+# RUN_SCRIPT="$BINARY --outdir=$OUTDIR \
+# 			gem5-config/run_vector_stream.py $SYS_OPTS \
+# 			--accpath=$LAB_PATH/benchmarks --accbench=vector_stream $CACHE_OPTS"
 
 if [ "${PRINT_TO_FILE}" == "true" ]; then
 	mkdir -p $OUTDIR

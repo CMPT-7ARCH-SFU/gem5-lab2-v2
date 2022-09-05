@@ -1,58 +1,65 @@
 #include "hw_defines.h"
 
-volatile uint8_t *V1Flags = (uint8_t *)VECTOR_STREAM;
-volatile uint8_t *V2Flags = (uint8_t *)VECTOR2;
+void top(uint64_t in_addr, uint64_t out_addr, uint64_t const_addr) {
 
-// volatile uint8_t *_DMAFlags =  (uint8_t*)0x10020000;
-// volatile uint32_t *_DMARdAddr  = (uint32_t*)0x10020001;
-// volatile uint32_t *_DMAWrAddr  = (uint32_t*)0x10020009;
-// volatile uint32_t *_DMACopyLen  = (uint32_t*)0x10020011;
+  // Initialize Accelerators
+  volatile uint8_t *s1 = (uint8_t *)S1;
+  volatile uint8_t *s2 = (uint8_t *)S2;
+  volatile uint8_t *s3 = (uint8_t *)S3;
 
+  // Initialize DMAs
+  // StreamDma
+  volatile uint8_t *StrDmaFlags = (uint8_t *)(STREAMDMA_Flags);
+  volatile uint64_t *StrDmaRdAddr = (uint64_t *)(STREAMDMA_Flags + 4);
+  volatile uint64_t *StrDmaWrAddr = (uint64_t *)(STREAMDMA_Flags + 12);
+  volatile uint32_t *StrDmaRdFrameSize = (uint32_t *)(STREAMDMA_Flags + 20);
+  volatile uint8_t *StrDmaNumRdFrames = (uint8_t *)(STREAMDMA_Flags + 24);
+  volatile uint8_t *StrDmaRdFrameBuffSize = (uint8_t *)(STREAMDMA_Flags + 25);
+  volatile uint32_t *StrDmaWrFrameSize = (uint32_t *)(STREAMDMA_Flags + 26);
+  volatile uint8_t *StrDmaNumWrFrames = (uint8_t *)(STREAMDMA_Flags + 30);
+  volatile uint8_t *StrDmaWrFrameBuffSize = (uint8_t *)(STREAMDMA_Flags + 31);
+  // MemDma
+  volatile uint8_t *MemDmaFlags = (uint8_t *)(DMA_Flags);
+  volatile uint64_t *MemDmaRdAddr = (uint64_t *)(DMA_Flags + 1);
+  volatile uint64_t *MemDmaWrAddr = (uint64_t *)(DMA_Flags + 9);
+  volatile uint32_t *MemDmaCopyLen = (uint32_t *)(DMA_Flags + 17);
+  // Initialize DRAM-Stream DMA
+  *StrDmaRdAddr = in_addr;
+  *StrDmaRdFrameSize = INPUT_SIZE;
+  *StrDmaNumRdFrames = 1;
+  *StrDmaRdFrameBuffSize = 1;
+  // Initialize Stream-DRAM DMA
+  *StrDmaWrAddr = out_addr;
+  *StrDmaWrFrameSize = OUTPUT_SIZE;
+  *StrDmaNumWrFrames = 1;
+  *StrDmaWrFrameBuffSize = 1;
+  // Start Stream DMAs
+  // *StrDmaFlags = STR_DMA_INIT_RD;
+  *StrDmaFlags = STR_DMA_INIT_RD | STR_DMA_INIT_WR;
 
-void top(TYPE m1[N], TYPE m2[N], TYPE m3[N]) {
-  volatile uint8_t *_DMAFlags =  (uint8_t*)0x10020000;
-  volatile uint32_t *_DMARdAddr  = (uint32_t*)0x10020001;
-  volatile uint32_t *_DMAWrAddr  = (uint32_t*)0x10020009;
-  volatile uint32_t *_DMACopyLen  = (uint32_t*)0x10020011;
-
-  DmaCopy_32(MATRIX1, m1, vector_size);
-
-  //Transfer m2 Features
-  *_DMARdAddr = (uint32_t)m2;
-  *_DMAWrAddr = (uint32_t)MATRIX2;
-  *_DMACopyLen = vector_size;
-  // // // Fence it
-  *_DMAFlags = 0;
-  while (*_DMAFlags != 0x0);
-  *_DMAFlags = DEVINIT;
+  // Transfer constants table
+  *MemDmaRdAddr = const_addr;
+  *MemDmaWrAddr = S1Buffer;
+  *MemDmaCopyLen = INPUT_SIZE * 1;
+  *MemDmaFlags = MEM_DMA_INIT;
   // Poll DMA for finish
-  while ((*_DMAFlags & DEVINTR) != DEVINTR);
-  // // Reset DMA
-  *_DMAFlags = 0x0;
-  // DmaCopy_32(MATRIX2, m2, vector_size);
-  // Check if accelerator ready for kickstarting
-  while (*V1Flags != 0x0);
+  while ((*MemDmaFlags & MEM_DMA_INTR) != MEM_DMA_INTR);
 
-  // Start the accelerated function
-  *V1Flags = DEV_INIT;
-  // Poll function for finish
-  while ((*V1Flags & DEV_INTR) != DEV_INTR);
-  *V1Flags = 0x0;
+  // Start S1
+  *s1 = 0x01;
+  // Start S2
+  *s2 = 0x01;
+  // // Start S3
+  *s3 = 0x01;
+  // Wait for all accelerators to finish before sending interrupt to CPU
+  while ((*StrDmaFlags & 0x08) == 0x08)
+    ;
+    
+  *s1 = 0x00;
+  // Start S2
+  *s2 = 0x00;
+  // Start S3
+  *s3 = 0x00;
 
-  // // Invoke accelerator 2
-  // Transfer Input Matrices
-  // Transfer the output of V1 to V2.
-  DmaCopy_32(V2_MAT1, MATRIX3, vector_size);
-  DmaCopy_32(V2_MAT2, MATRIX3, vector_size);
-
-  while (*V2Flags != 0x0);
-
-  // Start the accelerated function
-  *V2Flags = DEV_INIT;
-  // Poll function for finish
-  while ((*V2Flags & DEV_INTR) != DEV_INTR);
-  *V2Flags = 0x0;
-
-  DmaCopy_32(m3, V2_MAT3, vector_size);
-  // return;
+  return;
 }
