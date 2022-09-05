@@ -10,54 +10,68 @@ acc_cluster:
       InterruptNum: 95
   - Accelerator:
     - Name: Top
-      IrPath: benchmarks/multi_vector/hw/ir/top.ll
-      ConfigPath: benchmarks/multi_vector/hw/ir/top.ini
+      IrPath: benchmarks/multi_vector/hw/top.ll
+      ConfigPath: benchmarks/multi_vector/hw/top.ini
       PIOSize: 25
       InterruptNum: 68
       PIOMaster: LocalBus
       # Local to PIO
       LocalSlaves: LocalBus
-      Debug: TRUE
+      Debug: False
   - Accelerator:
     - Name: vector
-      IrPath: benchmarks/multi_vector/hw/ir/vector.ll
-      ConfigPath: benchmarks/multi_vector/hw/ir/vector.ini
+      IrPath: benchmarks/multi_vector/hw/vector.ll
+      ConfigPath: benchmarks/multi_vector/hw/vector.ini
       Debug: False
       PIOSize: 1
       PIOMaster: LocalBus
     - Var:
       - Name: MATRIX1
         Type: SPM
-        Size: 64
+        Size: 512
         Ports: 2
     - Var:
       - Name: MATRIX2
         Type: SPM
-        Size: 64
+        Size: 512
         Ports: 2
     - Var:
       - Name: MATRIX3
         Type: SPM
-        Size: 64
+        Size: 512
         Ports: 2
   - Accelerator:
     - Name: vector2
-      IrPath: benchmarks/multi_vector/hw/ir/vector2.ll
-      ConfigPath: benchmarks/multi_vector/hw/ir/vector2.ini
+      IrPath: benchmarks/multi_vector/hw/vector2.ll
+      ConfigPath: benchmarks/multi_vector/hw/vector2.ini
       Debug: False
       PIOSize: 1
       PIOMaster: LocalBus
-   
+    - Var:
+      - Name: V2_MAT1
+        Type: SPM
+        Size: 512
+        Ports: 2
+    - Var:
+      - Name: V2_MAT2
+        Type: SPM
+        Size: 512
+        Ports: 2
+    - Var:
+      - Name: V2_MAT3
+        Type: SPM
+        Size: 512
+        Ports: 2
 hw_config:
   top:
-  vector:
   vector2:
+  vector:
     instructions:
       add:
         functional_unit: 1
         functional_unit_limit: 0
         opcode_num: 13
-        runtime_cycles: 1
+        runtime_cycles: 0
       addrspacecast:
         functional_unit: 0
         functional_unit_limit: 0

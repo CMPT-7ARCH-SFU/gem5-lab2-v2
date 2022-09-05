@@ -32,6 +32,7 @@ void DmaCopy(uint32_t *dst, uint32_t *src, int len) {
 	*DmaFlags   = DEVINIT;
 	//Poll DMA for finish
 	while ((*DmaFlags & DEVINTR) != DEVINTR);
+  *DmaFlags = 0x0;
 }
 
 
