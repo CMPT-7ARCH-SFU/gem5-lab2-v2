@@ -49,9 +49,6 @@ RUN_SCRIPT="$BINARY $DEBUG_FLAGS --outdir=$OUTDIR \
 			gem5-config/fs_$BENCH.py $SYS_OPTS \
 			--accpath=$LAB_PATH/benchmarks \
 			--accbench=$BENCH $CACHE_OPTS"
-# RUN_SCRIPT="$BINARY --outdir=$OUTDIR \
-# 			gem5-config/run_vector_stream.py $SYS_OPTS \
-# 			--accpath=$LAB_PATH/benchmarks --accbench=vector_stream $CACHE_OPTS"
 
 if [ "${PRINT_TO_FILE}" == "true" ]; then
 	mkdir -p $OUTDIR

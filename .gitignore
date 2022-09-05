@@ -32,3 +32,5 @@ bench.*
 *.bin
 *.dump
 BM_ARM_OUT/
+# configs/
+# SALAM-Configurator
