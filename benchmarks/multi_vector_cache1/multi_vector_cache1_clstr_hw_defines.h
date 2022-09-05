@@ -1,0 +1,20 @@
+//BEGIN GENERATED CODE
+//Cluster: MULTI_VECTOR_CACHE1_CLSTR
+//NonCoherentDMA
+#define DMA_Flags 0x10020000
+#define DMA_RdAddr 0x10020001
+#define DMA_WrAddr 0x10020009
+#define DMA_CopyLen 0x10020011
+//Accelerator: TOP
+#define TOP 0x10020040
+//Accelerator: MULTI_VECTOR1
+#define MULTI_VECTOR1 0x10020080
+#define MATRIX1 0x100200c0
+#define MATRIX2 0x1002c900
+#define MATRIX3 0x10039140
+//Accelerator: VECTOR2
+#define VECTOR2 0x10045980
+#define V2_MAT1 0x100459c0
+#define V2_MAT2 0x10052200
+#define V2_MAT3 0x1005ea40
+//END GENERATED CODE
