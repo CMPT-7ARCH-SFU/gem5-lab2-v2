@@ -138,8 +138,7 @@ def build_test_system(np):
     elif args.kernel is not None:
         test_sys.workload.object_file = binary(args.kernel)
         test_sys.workload.extras = [os.environ["LAB_PATH"]+"/benchmarks/inputs/m0.bin",os.environ["LAB_PATH"]+"/benchmarks/inputs/m1.bin"]
-        test_sys.workload.extras_addrs = [0x80c00000,0x80c00000+8*8]    
-
+        test_sys.workload.extras_addrs = [0x80c00000,0x80c00000+8*8]
     if args.script is not None:
         test_sys.readfile = args.script
 

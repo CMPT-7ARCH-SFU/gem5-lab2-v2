@@ -29,10 +29,13 @@ int main(void) {
   TYPE *spm2 = (TYPE *)(MATRIX2);
   TYPE *spm3 = (TYPE *)(MATRIX3);
 #endif
-  TYPE* ARG1 = (TYPE*) ACC + sizeof(TYPE);
-  TYPE* ARG2 = (TYPE*) ARG1 + sizeof(TYPE);
-  TYPE* ARG3 = (TYPE*) ARG2 + sizeof(TYPE);
+  TYPE* ARG1 = (TYPE*)( ACC + 0x1);
+  TYPE* ARG2 = (TYPE*) (ACC + 0x09);
+  TYPE* ARG3 = (TYPE*) (ACC + 0x11);
 
+  *ARG1 = (TYPE)spm1;
+  *ARG2 = (TYPE)spm2;
+  *ARG3 = (TYPE)spm3;
   //Transfer Input Matrices
 	//Transfer M1
   DmaCopy(spm1, m1, sizeof(TYPE) * N);

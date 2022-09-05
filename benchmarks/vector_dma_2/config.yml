@@ -13,7 +13,7 @@ acc_cluster:
       IrPath: benchmarks/vector_dma_2/hw/vector_dma_2.ll
       ConfigPath: benchmarks/vector_dma_2/hw/vector_dma_2.ini
       Debug: False
-      PIOSize: 9
+      PIOSize: 25
       PIOMaster: LocalBus
       InterruptNum: 68
     - Var:
