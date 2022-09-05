@@ -1,7 +1,7 @@
 #ifndef __DEFINES_H__
 #define __DEFINES_H__
 #define CHECK
-#include "multi_vector_cache1_clstr_hw_defines.h"
+#include "multi_vector_cache_clstr_hw_defines.h"
 #include "../common/dma.h"
 #define ROW 64
 #define COL 64

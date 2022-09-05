@@ -1,6 +1,6 @@
 ---
 acc_cluster:
-  - Name: multi_vector_cache1_clstr
+  - Name: multi_vector_cache_clstr
   - DMA:
     - Name: dma
       MaxReqSize: 64
@@ -10,8 +10,8 @@ acc_cluster:
       InterruptNum: 95
   - Accelerator:
     - Name: Top
-      IrPath: benchmarks/multi_vector_cache1/hw/top.ll
-      ConfigPath: benchmarks/multi_vector_cache1/hw/top.ini
+      IrPath: benchmarks/multi_vector_cache/hw/top.ll
+      ConfigPath: benchmarks/multi_vector_cache/hw/top.ini
       PIOSize: 25
       InterruptNum: 68
       PIOMaster: LocalBus
@@ -20,8 +20,8 @@ acc_cluster:
       Debug: False
   - Accelerator:
     - Name: multi_vector1
-      IrPath: benchmarks/multi_vector_cache1/hw/multi_vector1.ll
-      ConfigPath: benchmarks/multi_vector_cache1/hw/multi_vector1.ini
+      IrPath: benchmarks/multi_vector_cache/hw/multi_vector1.ll
+      ConfigPath: benchmarks/multi_vector_cache/hw/multi_vector1.ini
       Debug: False
       PIOSize: 1
       PIOMaster: LocalBus
@@ -42,8 +42,8 @@ acc_cluster:
         Ports: 2
   - Accelerator:
     - Name: vector2
-      IrPath: benchmarks/multi_vector_cache1/hw/vector2.ll
-      ConfigPath: benchmarks/multi_vector_cache1/hw/vector2.ini
+      IrPath: benchmarks/multi_vector_cache/hw/vector2.ll
+      ConfigPath: benchmarks/multi_vector_cache/hw/vector2.ini
       Debug: False
       PIOSize: 1
       PIOMaster: LocalBus

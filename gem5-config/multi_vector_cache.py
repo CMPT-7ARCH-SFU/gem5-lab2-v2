@@ -17,7 +17,7 @@ def __init__(self, size, options=None):
 		super(L1Cache, self).__init__()
 		pass
 
-def buildmulti_vector_cache1_clstr(options, system, clstr):
+def buildmulti_vector_cache_clstr(options, system, clstr):
 
 	local_low = 0x10020000
 	local_high = 0x1006b280
@@ -37,22 +37,22 @@ def buildmulti_vector_cache1_clstr(options, system, clstr):
 	
 	# top Definition
 	acc = "top"
-	ir = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector_cache1/hw/top.ll"
-	config = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector_cache1/config.yml"
+	ir = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector_cache/hw/top.ll"
+	config = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector_cache/config.yml"
 	clstr.top = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020040, pio_size=64, int_num=68)
 	AccConfig(clstr.top, ir, config)
 	
 	# multi_vector1 Definition
 	acc = "multi_vector1"
-	ir = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector_cache1/hw/multi_vector1.ll"
-	config = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector_cache1/config.yml"
+	ir = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector_cache/hw/multi_vector1.ll"
+	config = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector_cache/config.yml"
 	clstr.multi_vector1 = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020080, pio_size=64)
 	AccConfig(clstr.multi_vector1, ir, config)
 	
 	# vector2 Definition
 	acc = "vector2"
-	ir = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector_cache1/hw/vector2.ll"
-	config = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector_cache1/config.yml"
+	ir = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector_cache/hw/vector2.ll"
+	config = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector_cache/config.yml"
 	clstr.vector2 = CommInterface(devicename=acc, gic=gic, pio_addr=0x10045980, pio_size=64)
 	AccConfig(clstr.vector2, ir, config)
 	
@@ -61,6 +61,7 @@ def buildmulti_vector_cache1_clstr(options, system, clstr):
 	clstr.top.pio = clstr.local_bus.mem_side_ports
 	clstr.top.enable_debug_msgs = False
 	clstr.top.acp = clstr.coherency_bus.cpu_side_ports
+
 	# multi_vector1 Config
 	clstr.multi_vector1.pio = clstr.local_bus.mem_side_ports
 	clstr.multi_vector1.enable_debug_msgs = False
@@ -161,6 +162,6 @@ def buildmulti_vector_cache1_clstr(options, system, clstr):
 	
 def makeHWAcc(args, system):
 
-	system.multi_vector_cache1_clstr = AccCluster()
-	buildmulti_vector_cache1_clstr(args, system, system.multi_vector_cache1_clstr)
+	system.multi_vector_cache_clstr = AccCluster()
+	buildmulti_vector_cache_clstr(args, system, system.multi_vector_cache_clstr)
 

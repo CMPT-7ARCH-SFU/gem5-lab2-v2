@@ -5,32 +5,10 @@
 #include <stdint.h>
 #include "../defines.h"
 
-#define DEV_INIT 0x01
-#define DEV_INTR 0x04
+#define DEV_INIT	0x01
+#define DEV_INTR	0x04
 
 //Specify row/column sizes
-#define vector_size N * sizeof(TYPE)
-
-// Device MMR addresses
-#define TOP 0x2f000000
-#define V1  0x2f000100
-#define V1_ARG1  0x2f000101
-#define V1_ARG2  0x2f000109
-#define V1_ARG3  0x2f000111
-#define V2 0x2f000200
-#define V2_ARG1  0x2f000201
-#define V2_ARG2  0x2f000209
-
-#define DMA 0x2ff00000
-
-// Specify the scratchpad addresses for variables
-#define SPM 0x2f100000
-#define M1ADDR SPM + (vector_size * 0)
-#define M2ADDR SPM + (vector_size * 1)
-#define M3ADDR SPM + (vector_size * 2)
-
-// Specify the scratchpad addresses for variables
-#define SPM_V2 0x2f200000
-#define M1ADDR_V2 SPM_V2 + (vector_size * 0)
-#define M2ADDR_V2 SPM_V2 + (vector_size * 1)
-#define M3ADDR_V2 SPM_V2 + (vector_size * 2)
+#define row_size 	ROW
+#define col_size 	COL
+#define mat_size	row_size*col_size*sizeof(TYPE)

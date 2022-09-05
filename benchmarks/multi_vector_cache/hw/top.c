@@ -1,6 +1,6 @@
 #include "hw_defines.h"
 
-volatile uint8_t *V1Flags = (uint8_t *)VECTOR;
+volatile uint8_t *V1Flags = (uint8_t *)MULTI_VECTOR1;
 volatile uint8_t *V2Flags = (uint8_t *)VECTOR2;
 
 void top(TYPE m1[N], TYPE m2[N], TYPE m3[N]) {
