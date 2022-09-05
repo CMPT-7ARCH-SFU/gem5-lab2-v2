@@ -24,7 +24,7 @@ def buildvector_cache_clstr(options, system, clstr):
 	local_range = AddrRange(local_low, local_high)
 	external_range = [AddrRange(0x00000000, local_low-1), AddrRange(local_high+1, 0xFFFFFFFF)]
 	system.iobus.mem_side_ports = clstr.local_bus.cpu_side_ports
-	clstr._connect_caches(system, options, l2coherent=False, cache_size='32kB')
+	clstr._connect_caches(system, options, l2coherent=True, cache_size='1kB')
 	gic = system.realview.gic
 
 	# Noncoherent DMA
@@ -46,6 +46,8 @@ def buildvector_cache_clstr(options, system, clstr):
 	clstr.vector_cache.pio = clstr.local_bus.mem_side_ports
 	clstr.vector_cache.enable_debug_msgs = False
 	clstr.vector_cache.acp = clstr.coherency_bus.cpu_side_ports
+	clstr.vector_cache.acp = clstr.coherency_bus.cpu_side_ports
+
 def makeHWAcc(args, system):
 
 	system.vector_cache_clstr = AccCluster()
