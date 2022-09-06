@@ -37,8 +37,9 @@ There is a commented line in the bash files:
 - From `config/SALAM/generated/$BENCHMARK.py` copy the `clstr.streamdma.stream_addr` and put it in `defines.h` as `StreamIn` and `StreamOut`. Also, add 2 more defines that connects ACC1_OUT (`S1IN`) to `StreamIn` and ACC2_OUT to `StreamOut`.
 
 ### Between two accelerators:
-- In the source accelerator define a variable with type stream.
-- Set the `streamSize, BufferSize`
-- `InCon: src Accelerator`
-- `OutCon: dst Accelerator`
+- In the config.yml:
+    - In the source accelerator define a variable with type stream.
+    - Set the `streamSize, BufferSize`
+    - `InCon: src Accelerator`
+    - `OutCon: dst Accelerator`
 - The generated header only has the InConnection. In the `defines.h` add another define to alias the output connection and input connection.
