@@ -40,4 +40,4 @@ There is a commented line in the bash files:
 - Set the `streamSize, BufferSize`
 - `InCon: src Accelerator`
 - `OutCon: dst Accelerator`
-- The generated header only has the InConnection. In the `define.h` add another define to alias the output connection and input connection.
+- The generated header only has the InConnection. In the `defines.h` add another define to alias the output connection and input connection.
