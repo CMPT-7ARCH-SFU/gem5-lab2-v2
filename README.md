@@ -30,9 +30,10 @@ There is a commented line in the bash files:
 
 ## Streaming:
 ### Stream from/to DRAM:
-- In the `config.yml`, add a DMA with type = `Stream`. (see `benchmarks/vector_stream1/config.yml`) 
-- Add `streamOut` to the accelerator that receives the data from dram
-- Add `streamIn` to the accelerator that writes the data to the dram
+- In the `config.yml`:
+    - add a DMA with type = `Stream`. (see `benchmarks/vector_stream1/config.yml`) 
+    - Add `streamOut` to the accelerator that receives the data from dram
+    - Add `streamIn` to the accelerator that writes the data to the dram
 - From `config/SALAM/generated/$BENCHMARK.py` copy the `clstr.streamdma.stream_addr` and put it in `defines.h` as `StreamIn` and `StreamOut`. Also, add 2 more defines that connects ACC1_OUT (`S1IN`) to `StreamIn` and ACC2_OUT to `StreamOut`.
 
 ### Between two accelerators:
