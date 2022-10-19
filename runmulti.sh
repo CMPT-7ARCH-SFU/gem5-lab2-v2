@@ -1,5 +1,5 @@
 #!/bin/bash
-FLAGS="HWACC"
+FLAGS="HWACC,Runtime"
 BENCH=""
 DEBUG="false"
 PRINT_TO_FILE="false"

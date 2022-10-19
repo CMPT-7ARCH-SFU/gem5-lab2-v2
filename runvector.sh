@@ -1,6 +1,6 @@
 #!/bin/bash
 # Uncomment if you want trace. Dumps txt trace. Do not enable for large programs.
-FLAGS="Runtime"
+FLAGS="DeviceMMR,LLVMInterface,AddrRanges,NoncoherentDma,RuntimeCompute"
 # NoncoherentDma only dumps the copy from and to host
 #FLAGS="NoncoherentDma"
 BENCH=""
@@ -80,6 +80,8 @@ RUN_SCRIPT="$BINARY $DEBUG_FLAGS --outdir=$OUTDIR \
 # 			--accpath=$LAB_PATH/benchmarks \
 # 			--accbench=$BENCH $CACHE_OPTS"
 
+echo $RUN_SCRIPT
+
 if [ "${PRINT_TO_FILE}" == "true" ]; then
 	mkdir -p $OUTDIR
 	$RUN_SCRIPT > ${OUTDIR}/debug-trace.txt
@@ -89,19 +91,13 @@ fi
 
 # Debug Flags List
 #
-# IOAcc
-# ClassDetail
 # CommInterface
-# ComputeUnit
+# DeviceMMR
+# Runtime
 # LLVMInterface
-# ComputeNode
-# LLVMRegister
-# LLVMOp
 # LLVMParse
-# LLVMGEP
-# LLVMRuntime == ComputeNode + LLVMRegister + LLVMOp + LLVMParse
-# NoncoherentDma - bfs, fft, gemm, md-knn, nw, spmv
-
+# RuntimeCompute
+# AddrRanges
 
 
 

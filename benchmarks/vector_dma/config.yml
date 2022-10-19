@@ -12,7 +12,7 @@ acc_cluster:
     - Name: vector_dma
       IrPath: benchmarks/vector_dma/hw/vector_dma.ll
       ConfigPath: benchmarks/vector_dma/hw/vector_dma.ini
-      Debug: False
+      Debug: True
       PIOSize: 25
       PIOMaster: LocalBus
       InterruptNum: 68
@@ -36,7 +36,7 @@ hw_config:
     instructions:
       add:
         functional_unit: 1
-        functional_unit_limit: 0
+        functional_unit_limit: 5
         opcode_num: 13
         runtime_cycles: 1
       addrspacecast:

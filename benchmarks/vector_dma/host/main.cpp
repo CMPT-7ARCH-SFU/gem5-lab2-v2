@@ -25,9 +25,9 @@ int main(void) {
     printf("m2: %p %ld\n",m2+i,m2[i]);
 
 #ifdef SPM
-  TYPE *spm1 = (TYPE *)spm_base;
-  TYPE *spm2 = (TYPE *)((TYPE)spm_base + sizeof(TYPE) * N *2 );
-  TYPE *spm3 = (TYPE *)((TYPE)spm_base + 2 * sizeof(TYPE) * N * 2);
+  TYPE *spm1 = (TYPE *)MATRIX1;
+  TYPE *spm2 = (TYPE *)MATRIX2; //(TYPE *)((TYPE)spm_base + sizeof(TYPE) * N *2 );
+  TYPE *spm3 = (TYPE *)MATRIX3; //(TYPE *)((TYPE)spm_base + 2 * sizeof(TYPE) * N * 2);
 #endif
   TYPE* ARG1 = (TYPE*)( ACC + 0x1);
   TYPE* ARG2 = (TYPE*) (ACC + 0x09);

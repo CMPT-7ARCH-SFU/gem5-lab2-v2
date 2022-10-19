@@ -3,6 +3,8 @@ from m5.objects import *
 from m5.util import *
 from configparser import ConfigParser
 from HWAccConfig import *
+import os
+import yaml
 
 class L1Cache(Cache):
 	assoc = 2
@@ -20,7 +22,7 @@ def __init__(self, size, options=None):
 def buildvector_dma_clstr(options, system, clstr):
 
 	local_low = 0x10020000
-	local_high = 0x10020200
+	local_high = 0x10030000
 	local_range = AddrRange(local_low, local_high)
 	external_range = [AddrRange(0x00000000, local_low-1), AddrRange(local_high+1, 0xFFFFFFFF)]
 	system.iobus.mem_side_ports = clstr.local_bus.cpu_side_ports
@@ -37,14 +39,23 @@ def buildvector_dma_clstr(options, system, clstr):
 	
 	# vector_dma Definition
 	acc = "vector_dma"
-	ir = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/vector_dma/hw/vector_dma.ll"
-	config = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/vector_dma/config.yml"
+	ir = os.environ["LAB_PATH"]+"/benchmarks/vector_dma/hw/vector_dma.ll"
+	config = os.environ["LAB_PATH"]+"/benchmarks/vector_dma/config.yml"
+	yaml_file = open(config, 'r')
+	yaml_config = yaml.safe_load(yaml_file)
+	debug = False
+	for component in yaml_config["acc_cluster"]:
+		if "Accelerator" in component.keys():
+			for axc in component["Accelerator"]:
+				print(axc)
+				if axc.get("Name","") == acc:
+						debug = axc["Debug"] 
+
 	clstr.vector_dma = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020040, pio_size=64, int_num=68)
 	AccConfig(clstr.vector_dma, ir, config)
-	
 	# vector_dma Config
 	clstr.vector_dma.pio = clstr.local_bus.mem_side_ports
-	clstr.vector_dma.enable_debug_msgs = False
+	clstr.vector_dma.enable_debug_msgs = debug
 	
 	# MATRIX1 (Variable)
 	addr = 0x10020080

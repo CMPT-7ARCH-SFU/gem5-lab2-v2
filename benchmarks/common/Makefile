@@ -31,7 +31,7 @@
 # Authors: 	Matthias Jung
 #			Frederik Lauer
 
-CROSS_COMPILE_DIR = ~/arm_gcc/gcc-arm-none-eabi-10.3-2021.10/bin
+#CROSS_COMPILE_DIR = ~/arm_gcc/gcc-arm-none-eabi-10.3-2021.10/bin
 
 ARCH          ?= arm
 CROSS_COMPILE ?= arm-none-eabi-
