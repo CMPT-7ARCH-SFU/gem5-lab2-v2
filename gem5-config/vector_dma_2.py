@@ -37,8 +37,8 @@ def buildvector_dma_2_clstr(options, system, clstr):
 	
 	# vector_dma_2 Definition
 	acc = "vector_dma_2"
-	ir = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/vector_dma_2/hw/vector_dma_2.ll"
-	config = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/vector_dma_2/config.yml"
+	ir = os.environ["LAB_PATH"]+"/benchmarks/vector_dma_2/hw/vector_dma_2.ll"
+	config = os.environ["LAB_PATH"]+"/benchmarks/vector_dma_2/config.yml"
 	clstr.vector_dma_2 = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020040, pio_size=64, int_num=68)
 	AccConfig(clstr.vector_dma_2, ir, config)
 	
