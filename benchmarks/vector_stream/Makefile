@@ -1,11 +1,13 @@
-FOLDERS=hw host
+FOLDERS=\
+	host\
+	hw
 
 .PHONY: build clean all
 
 build:
-	@( for b in $(FOLDERS); do $(MAKE) -C $$b; done )
-
+	@( for f in $(FOLDERS); do $(MAKE) CFLAGS="$(CFLAGS)" -C $$f; done )
+	
 clean:
-	@( for b in $(FOLDERS); do $(MAKE) -C $$b clean || exit ; done )
-
+	@( for f in $(FOLDERS); do $(MAKE) -C $$f clean || exit ; done )
+	
 all: clean build

@@ -64,10 +64,7 @@ _Reset:
 .equ kmio_irq_id,     44
 .equ uart0_irq_id,    37
 .equ rtc_irq_id,      36
-.equ mn_head,         68
-.equ mn_body,         69
-.equ mn_tail,         70
-.equ mn_class,        71
+.equ mn_head,      68
 
 //GIC_CPU_INTERFACE
 //.equ GIC_CPU_BASE,                  0x1f000100
@@ -167,14 +164,14 @@ irq_handler:
 irq_mn_head:
     cmp r2, #mn_head
     bne irq_end
-    BL head_isr
+    BL isr
     ldr r2, = mn_head
     b irq_end
 
 irq_end:
     // write the IRQ ID to the END_OF_INTERRUPT Register of GIC_CPU_INTERFACE
     ldr r1, =GIC_CPU_BASE + GIC_CPU_End_of_int_offset
+    ldr r2, = mn_head
     str r2, [r1]
-
     pop {r0-r7,lr}
     subs pc, lr, #4
