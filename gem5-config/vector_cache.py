@@ -37,13 +37,28 @@ def buildvector_cache_clstr(options, system, clstr):
 	
 	# vector_cache Definition
 	acc = "vector_cache"
-	ir = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/vector_cache/hw/vector_cache.ll"
-	config = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/vector_cache/config.yml"
+  	# vector_dma Definition
+	acc = "vector_cache"
+	ir = os.environ["LAB_PATH"]+"/benchmarks/vector_cache/hw/vector_cache.ll"
+	config = os.environ["LAB_PATH"]+"/benchmarks/vector_cache/config.yml"
+	yaml_file = open(config, 'r')
+	yaml_config = yaml.safe_load(yaml_file)
+	debug = False
+	for component in yaml_config["acc_cluster"]:
+		if "Accelerator" in component.keys():
+			for axc in component["Accelerator"]:
+				print(axc)
+				if axc.get("Name","") == acc:
+						debug = axc["Debug"] 
+
 	clstr.vector_cache = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020040, pio_size=64, int_num=68)
 	AccConfig(clstr.vector_cache, ir, config)
+	clstr.vector_cache.pio = clstr.local_bus.mem_side_ports
+	clstr.vector_cache.enable_debug_msgs = debug
+	
+ 
 	
 	# vector_cache Config
-	clstr.vector_cache.pio = clstr.local_bus.mem_side_ports
 	clstr.vector_cache.enable_debug_msgs = False
 	clstr.vector_cache.acp = clstr.coherency_bus.cpu_side_ports
 	clstr.vector_cache.acp = clstr.coherency_bus.cpu_side_ports
