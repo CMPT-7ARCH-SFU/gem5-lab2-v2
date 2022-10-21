@@ -45,11 +45,15 @@ BENCH=vector_stream
 # 			configs/SALAM/generated/fs_$BENCH.py $SYS_OPTS \
 # 			--accpath=$LAB_PATH/benchmarks \
 # 			--accbench=$BENCH $CACHE_OPTS"
+
+
+
 RUN_SCRIPT="$BINARY $DEBUG_FLAGS --outdir=$OUTDIR \
 			gem5-config/fs_$BENCH.py $SYS_OPTS \
 			--accpath=$LAB_PATH/benchmarks \
 			--accbench=$BENCH $CACHE_OPTS"
 
+echo $RUN_SCRIPT
 if [ "${PRINT_TO_FILE}" == "true" ]; then
 	mkdir -p $OUTDIR
 	$RUN_SCRIPT > ${OUTDIR}/debug-trace.txt
