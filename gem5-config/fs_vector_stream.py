@@ -63,7 +63,7 @@ from common import MemConfig
 from common import ObjectList
 from common.Caches import *
 from common import Options
-import vector_stream1
+import vector_stream
 # Add hardware accelerator options for gem5-SALAM
 def addHWAccOptions(parser):
     parser.add_argument("--acc_cache", action="store_true")
@@ -226,7 +226,7 @@ def build_test_system(np):
         MemConfig.config_mem(args, test_sys)
 
     if buildEnv['TARGET_ISA'] == "arm":
-        vector_stream1.makeHWAcc(args, test_sys)
+        vector_stream.makeHWAcc(args, test_sys)
 
     if ObjectList.is_kvm_cpu(TestCPUClass) or \
         ObjectList.is_kvm_cpu(FutureClass):

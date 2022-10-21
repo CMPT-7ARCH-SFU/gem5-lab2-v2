@@ -28,7 +28,7 @@ else
 	BINARY="${M5_PATH}/build/ARM/gem5.opt"
 fi
 
-KERNEL=$LAB_PATH/benchmarks/vector_stream1/host/main.elf
+KERNEL=$LAB_PATH/benchmarks/vector_stream/host/main.elf
 SYS_OPTS="--mem-size=4GB \
           --kernel=$KERNEL \
           --disk-image=$M5_PATH/baremetal/common/fake.iso \
@@ -37,8 +37,8 @@ SYS_OPTS="--mem-size=4GB \
           --cpu-type=DerivO3CPU"
 CACHE_OPTS="--caches --l2cache --acc_cache"
 
-OUTDIR=BM_ARM_OUT/vector_stream1
-BENCH=vector_stream1
+OUTDIR=BM_ARM_OUT/vector_stream
+BENCH=vector_stream
 # ${LAB_PATH}/SALAM-Configurator/systembuilder.py --sysName $BENCH --benchDir "benchmarks/${BENCH}"
 
 # RUN_SCRIPT="$BINARY $DEBUG_FLAGS --outdir=$OUTDIR \
