@@ -62,6 +62,8 @@ RUN_SCRIPT="$BINARY --debug-flags=$FLAGS --outdir=$OUTDIR \
 			--accpath=$LAB_PATH/benchmarks \
 			--accbench=$BENCH $CACHE_OPTS"
 
+echo $RUN_SCRIPT
+
 if [ "${PRINT_TO_FILE}" == "true" ]; then
 	mkdir -p $OUTDIR
 	$RUN_SCRIPT > ${OUTDIR}/debug-trace.txt
