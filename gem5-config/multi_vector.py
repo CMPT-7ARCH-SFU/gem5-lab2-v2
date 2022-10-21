@@ -37,24 +37,64 @@ def buildmulti_vector_clstr(options, system, clstr):
 	
 	# top Definition
 	acc = "top"
-	ir = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector/hw/top.ll"
-	config = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector/config.yml"
+	ir = os.environ["LAB_PATH"]+"/benchmarks/multi_vector/hw/top.ll"
+	config = os.environ["LAB_PATH"]+"/benchmarks/multi_vector/config.yml"
+	yaml_file = open(config, 'r')
+	yaml_config = yaml.safe_load(yaml_file)
+	debug = False
+	for component in yaml_config["acc_cluster"]:
+		if "Accelerator" in component.keys():
+			for axc in component["Accelerator"]:
+				print(axc)
+				if axc.get("Name","") == acc:
+						debug = axc["Debug"] 
+
 	clstr.top = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020040, pio_size=64, int_num=68)
 	AccConfig(clstr.top, ir, config)
-	
-	# vector Definition
+	clstr.top.enable_debug_msgs = debug
+
+ 
+ 
+ 
 	acc = "vector"
-	ir = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector/hw/vector.ll"
-	config = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector/config.yml"
-	clstr.vector = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020080, pio_size=64)
+	ir = os.environ["LAB_PATH"]+"/benchmarks/multi_vector/hw/vector.ll"
+	config = os.environ["LAB_PATH"]+"/benchmarks/multi_vector/config.yml"
+	yaml_file = open(config, 'r')
+	yaml_config = yaml.safe_load(yaml_file)
+	debug = False
+	for component in yaml_config["acc_cluster"]:
+		if "Accelerator" in component.keys():
+			for axc in component["Accelerator"]:
+				print(axc)
+				if axc.get("Name","") == acc:
+						debug = axc["Debug"] 
+
+	clstr.vector = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020080, pio_size=64, int_num=68)
 	AccConfig(clstr.vector, ir, config)
-	
-	# vector2 Definition
+	clstr.vector.enable_debug_msgs = debug
+
+
+	# Vector2
+ 
 	acc = "vector2"
-	ir = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector/hw/vector2.ll"
-	config = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector/config.yml"
-	clstr.vector2 = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020780, pio_size=64)
+	ir = os.environ["LAB_PATH"]+"/benchmarks/multi_vector/hw/vector2.ll"
+	config = os.environ["LAB_PATH"]+"/benchmarks/multi_vector/config.yml"
+	yaml_file = open(config, 'r')
+	yaml_config = yaml.safe_load(yaml_file)
+	debug = False
+	for component in yaml_config["acc_cluster"]:
+		if "Accelerator" in component.keys():
+			for axc in component["Accelerator"]:
+				print(axc)
+				if axc.get("Name","") == acc:
+						debug = axc["Debug"] 
+
+	clstr.vector2 = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020780, pio_size=64, int_num=68)
 	AccConfig(clstr.vector2, ir, config)
+	clstr.vector2.enable_debug_msgs = debug
+
+ 
+	
 	
 	# top Config
 	clstr.top.local = clstr.local_bus.cpu_side_ports

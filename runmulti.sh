@@ -69,19 +69,13 @@ else
 	$RUN_SCRIPT
 fi
 
+
 # Debug Flags List
 #
-# IOAcc
-# ClassDetail
 # CommInterface
-# ComputeUnit
+# DeviceMMR
+# Runtime
 # LLVMInterface
-# ComputeNode
-# LLVMRegister
-# LLVMOp
 # LLVMParse
-# LLVMGEP
-# LLVMRuntime == ComputeNode + LLVMRegister + LLVMOp + LLVMParse
-# NoncoherentDma - bfs, fft, gemm, md-knn, nw, spmv
-
-
+# RuntimeCompute
+# AddrRanges
