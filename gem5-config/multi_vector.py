@@ -69,7 +69,7 @@ def buildmulti_vector_clstr(options, system, clstr):
 				if axc.get("Name","") == acc:
 						debug = axc["Debug"] 
 
-	clstr.vector = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020080, pio_size=64, int_num=68)
+	clstr.vector = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020080, pio_size=64)
 	AccConfig(clstr.vector, ir, config)
 	clstr.vector.enable_debug_msgs = debug
 
@@ -89,7 +89,7 @@ def buildmulti_vector_clstr(options, system, clstr):
 				if axc.get("Name","") == acc:
 						debug = axc["Debug"] 
 
-	clstr.vector2 = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020780, pio_size=64, int_num=68)
+	clstr.vector2 = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020780, pio_size=64)
 	AccConfig(clstr.vector2, ir, config)
 	clstr.vector2.enable_debug_msgs = debug
 

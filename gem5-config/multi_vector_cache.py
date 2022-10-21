@@ -37,22 +37,22 @@ def buildmulti_vector_cache_clstr(options, system, clstr):
 	
 	# top Definition
 	acc = "top"
-	ir = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector_cache/hw/top.ll"
-	config = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector_cache/config.yml"
+	ir =  os.environ["LAB_PATH"]+"/benchmarks/multi_vector_cache/hw/top.ll"
+	config = os.environ["LAB_PATH"] + "/benchmarks/multi_vector_cache/config.yml"
 	clstr.top = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020040, pio_size=64, int_num=68)
 	AccConfig(clstr.top, ir, config)
 	
 	# multi_vector1 Definition
 	acc = "multi_vector1"
-	ir = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector_cache/hw/multi_vector1.ll"
-	config = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector_cache/config.yml"
+	ir = os.envconfig = os.environ["LAB_PATH"] + "/benchmarks/multi_vector_cache/hw/multi_vector1.ll"
+	config = os.environ["LAB_PATH"] + "/benchmarks/multi_vector_cache/config.yml"
 	clstr.multi_vector1 = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020080, pio_size=64)
 	AccConfig(clstr.multi_vector1, ir, config)
 	
 	# vector2 Definition
 	acc = "vector2"
-	ir = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector_cache/hw/vector2.ll"
-	config = "/localhome/mha157/Desktop/gem5-lab2/benchmarks/multi_vector_cache/config.yml"
+	ir = os.envconfig = os.environ["LAB_PATH"] + "/benchmarks/multi_vector_cache/hw/vector2.ll"
+	config = os.environ["LAB_PATH"] + "/benchmarks/multi_vector_cache/config.yml"
 	clstr.vector2 = CommInterface(devicename=acc, gic=gic, pio_addr=0x10045980, pio_size=64)
 	AccConfig(clstr.vector2, ir, config)
 	
