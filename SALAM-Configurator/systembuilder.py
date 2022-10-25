@@ -47,7 +47,7 @@ args=parser.parse_args()
 
 # Set file information
 fileName = args.sysName
-CONFIG_Path = LAB_PATH + "/configs/SALAM/generated/"
+CONFIG_Path = LAB_PATH + "/gem5-config/"
 workingDirectory = LAB_PATH + "/"  + args.benchDir + "/"
 
 def main():
