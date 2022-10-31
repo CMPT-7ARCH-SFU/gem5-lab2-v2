@@ -37,64 +37,24 @@ def buildmulti_vector_clstr(options, system, clstr):
 	
 	# top Definition
 	acc = "top"
-	ir = os.environ["LAB_PATH"]+"/benchmarks/multi_vector/hw/top.ll"
-	config = os.environ["LAB_PATH"]+"/benchmarks/multi_vector/config.yml"
-	yaml_file = open(config, 'r')
-	yaml_config = yaml.safe_load(yaml_file)
-	debug = False
-	for component in yaml_config["acc_cluster"]:
-		if "Accelerator" in component.keys():
-			for axc in component["Accelerator"]:
-				print(axc)
-				if axc.get("Name","") == acc:
-						debug = axc["Debug"] 
-
+	ir = 	ir =  os.environ["LAB_PATH"]+"/benchmarks/multi_vector/hw/top.ll"
+	config = os.environ["LAB_PATH"] + "/benchmarks/multi_vector/config.yml"
 	clstr.top = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020040, pio_size=64, int_num=68)
 	AccConfig(clstr.top, ir, config)
-	clstr.top.enable_debug_msgs = debug
-
- 
- 
- 
+	
+	# vector Definition
 	acc = "vector"
-	ir = os.environ["LAB_PATH"]+"/benchmarks/multi_vector/hw/vector.ll"
-	config = os.environ["LAB_PATH"]+"/benchmarks/multi_vector/config.yml"
-	yaml_file = open(config, 'r')
-	yaml_config = yaml.safe_load(yaml_file)
-	debug = False
-	for component in yaml_config["acc_cluster"]:
-		if "Accelerator" in component.keys():
-			for axc in component["Accelerator"]:
-				print(axc)
-				if axc.get("Name","") == acc:
-						debug = axc["Debug"] 
-
+ 	ir =  os.environ["LAB_PATH"]+"/benchmarks/multi_vector_cache/hw/vector.ll"
+	config = os.environ["LAB_PATH"] + "/benchmarks/multi_vector/config.yml"
 	clstr.vector = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020080, pio_size=64)
 	AccConfig(clstr.vector, ir, config)
-	clstr.vector.enable_debug_msgs = debug
-
-
-	# Vector2
- 
+	
+	# vector2 Definition
 	acc = "vector2"
-	ir = os.environ["LAB_PATH"]+"/benchmarks/multi_vector/hw/vector2.ll"
-	config = os.environ["LAB_PATH"]+"/benchmarks/multi_vector/config.yml"
-	yaml_file = open(config, 'r')
-	yaml_config = yaml.safe_load(yaml_file)
-	debug = False
-	for component in yaml_config["acc_cluster"]:
-		if "Accelerator" in component.keys():
-			for axc in component["Accelerator"]:
-				print(axc)
-				if axc.get("Name","") == acc:
-						debug = axc["Debug"] 
-
+	ir =  os.environ["LAB_PATH"]+"/benchmarks/multi_vector/hw/vector2.ll"
+	config = os.environ["LAB_PATH"] + "/benchmarks/multi_vector/config.yml"
 	clstr.vector2 = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020780, pio_size=64)
 	AccConfig(clstr.vector2, ir, config)
-	clstr.vector2.enable_debug_msgs = debug
-
- 
-	
 	
 	# top Config
 	clstr.top.local = clstr.local_bus.cpu_side_ports
