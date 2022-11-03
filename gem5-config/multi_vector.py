@@ -18,7 +18,6 @@ def __init__(self, size, options=None):
 		pass
 
 def buildmulti_vector_clstr(options, system, clstr):
-
 	local_low = 0x10020000
 	local_high = 0x10020e80
 	local_range = AddrRange(local_low, local_high)
@@ -43,12 +42,15 @@ def buildmulti_vector_clstr(options, system, clstr):
 	AccConfig(clstr.top, ir, config)
 	
 	# vector Definition
+	# vector Definition
 	acc = "vector"
- 	ir =  os.environ["LAB_PATH"]+"/benchmarks/multi_vector_cache/hw/vector.ll"
+	ir = os.environ["LAB_PATH"]+"/benchmarks/multi_vector/hw/vector.ll"
 	config = os.environ["LAB_PATH"] + "/benchmarks/multi_vector/config.yml"
 	clstr.vector = CommInterface(devicename=acc, gic=gic, pio_addr=0x10020080, pio_size=64)
-	AccConfig(clstr.vector, ir, config)
-	
+	AccConfig(clstr.vector, ir, config)	
+ 
+  	
+ 
 	# vector2 Definition
 	acc = "vector2"
 	ir =  os.environ["LAB_PATH"]+"/benchmarks/multi_vector/hw/vector2.ll"
