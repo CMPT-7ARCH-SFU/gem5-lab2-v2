@@ -50,8 +50,6 @@ SYS_OPTS="--mem-size=4GB \
           --dtb-file=none --bare-metal \
           --cpu-type=DerivO3CPU"
 # With acc cache
-#CACHE_OPTS="--caches --l2cache --acc_cache"
-# Without acc cache
 CACHE_OPTS="--caches --l2cache --acc_cache"
 
 # Script to start up full system simulation
@@ -71,7 +69,7 @@ fi
 # 			--accpath=$LAB_PATH/benchmarks \
 # 			--accbench=$BENCH $CACHE_OPTS"
 RUN_SCRIPT="$BINARY $DEBUG_FLAGS --outdir=$OUTDIR \
-			gem5-config/fs_$BENCH.py $SYS_OPTS \
+			$LAB_PATH/gem5-config/fs_$BENCH.py $SYS_OPTS \
 			--accpath=$LAB_PATH/benchmarks \
 			--accbench=$BENCH $CACHE_OPTS"
 
