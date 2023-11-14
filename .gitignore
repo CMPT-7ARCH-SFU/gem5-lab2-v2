@@ -30,6 +30,7 @@ gem5-baseline
 bench.*
 *~
 *.bin
+*.o
 *.dump
 BM_ARM_OUT/
 # configs/
